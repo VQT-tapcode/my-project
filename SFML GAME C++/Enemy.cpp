@@ -120,7 +120,7 @@ BasicEnemy::BasicEnemy(const std::vector<sf::Vector2f>& pathPoints)
 FastEnemy::FastEnemy(const std::vector<sf::Vector2f>& pathPoints)
     : Enemy(pathPoints, 150.f, 100.f, 15, 1) {
 <<<<<<< HEAD
-    loadTexture("C:/Users/HH/Desktop/SFML GAME C++/x64/Debug/assets/Bat.png"); // chinh lai duong dan khi cai len may khac
+    loadTexture("assets/Bat.png"); // chinh lai duong dan khi cai len may khac
 =======
     loadTexture("assets/Bat.png");
 >>>>>>> 8f6fa01 (Add assets folder with all game resources)
