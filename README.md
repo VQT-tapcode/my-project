@@ -20,7 +20,16 @@ Người chơi phải bảo vệ căn cứ của mình khỏi làn sóng quái v
 - 💀 Trò chơi kết thúc khi **máu căn cứ về 0**.
 
 ---
+## 🔍 Các tính năng nổi bật
+🎨 Sử dụng thư viện đồ hoạ SFML
+🎞 Animation mượt mà (chạy)
+🎹 Bắt sự kiện bàn phím & chuột
+⏱ Xử lý FPS ổn định
+🩸 Thanh máu hiển thị rõ ràng
+🧾 Tính điểm và lưu Best score
+📝 Menu Pause
 
+---
 ### 🔧 Yêu cầu
 - Visual Studio 2022 hoặc Code::Blocks  
 - SFML (phiên bản ≥ 2.5)  
