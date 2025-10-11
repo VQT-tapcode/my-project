@@ -108,18 +108,18 @@ void Enemy::takeDamage(float dmg) {
 
 BasicEnemy::BasicEnemy(const std::vector<sf::Vector2f>& pathPoints)
     : Enemy(pathPoints, 250.f, 50.f, 10, 1) {
-    loadTexture("C:/Users/HH/Desktop/SFML GAME C++/x64/Debug/assets/Enemy Walk.png");
+    loadTexture("C:/Users/HH/Desktop/SFML GAME C++/x64/Debug/assets/Enemy Walk.png"); // chinh lai duong dan khi cai len may khac
     sprite.setScale(1.3f, 1.3f); //to hon 150% so vs goc
 }
 
 FastEnemy::FastEnemy(const std::vector<sf::Vector2f>& pathPoints)
     : Enemy(pathPoints, 150.f, 100.f, 15, 1) {
-    loadTexture("C:/Users/HH/Desktop/SFML GAME C++/x64/Debug/assets/Bat.png");
+    loadTexture("C:/Users/HH/Desktop/SFML GAME C++/x64/Debug/assets/Bat.png"); // chinh lai duong dan khi cai len may khac
 }
 
 TankEnemy::TankEnemy(const std::vector<sf::Vector2f>& pathPoints)
     : Enemy(pathPoints, 4000.f, 30.f, 25, 2) {
-    loadTexture("C:/Users/HH/Desktop/SFML GAME C++/x64/Debug/assets/Mushroom.png");
+    loadTexture("C:/Users/HH/Desktop/SFML GAME C++/x64/Debug/assets/Mushroom.png"); // chinh lai duong dan khi cai len may khac
     sprite.setScale(2.5f, 2.5f);
     shape.setFillColor(sf::Color::Red);
     shape.setRadius(20.f);
