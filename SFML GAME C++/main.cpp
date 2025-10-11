@@ -170,7 +170,7 @@ int main() {
     window.setFramerateLimit(60);
 
     sf::Font font;
-    if (!font.loadFromFile("C:/Users/HH/Desktop/SFML GAME C++/x64/Debug/assets/Arial.otf"))
+    if (!font.loadFromFile("assets/Arial.otf"))
         std::cout << "Warning: Could not load font\n";
 
     // PATH
