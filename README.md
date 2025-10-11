@@ -21,13 +21,13 @@ Người chơi phải bảo vệ căn cứ của mình khỏi làn sóng quái v
 
 ---
 ## 🔍 Các tính năng nổi bật
-🎨 Sử dụng thư viện đồ hoạ SFML
-🎞 Animation mượt mà (chạy)
-🎹 Bắt sự kiện bàn phím & chuột
-⏱ Xử lý FPS ổn định
-🩸 Thanh máu hiển thị rõ ràng
-🧾 Tính điểm và lưu Best score
-📝 Menu Pause
+- 🎨 Sử dụng thư viện đồ hoạ SFML
+- 🎞 Animation mượt mà (chạy)
+- 🎹 Bắt sự kiện bàn phím & chuột
+- ⏱ Xử lý FPS ổn định
+- 🩸 Thanh máu hiển thị rõ ràng
+- 🧾 Tính điểm và lưu Best score
+- 📝 Menu Pause
 
 ---
 ### 🔧 Yêu cầu
