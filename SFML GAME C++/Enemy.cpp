@@ -108,31 +108,18 @@ void Enemy::takeDamage(float dmg) {
 
 BasicEnemy::BasicEnemy(const std::vector<sf::Vector2f>& pathPoints)
     : Enemy(pathPoints, 250.f, 50.f, 10, 1) {
-<<<<<<< HEAD
-    loadTexture("C:/Users/HH/Desktop/SFML GAME C++/x64/Debug/assets/Enemy Walk.png"); // chinh lai duong dan khi cai len may khac
-    sprite.setScale(1.3f, 1.3f); //to hon 150% so vs goc
-=======
     loadTexture("assets/Enemy Walk.png");
-    sprite.setScale(1.3f, 1.3f); //to hon 130% so vs goc
->>>>>>> 8f6fa01 (Add assets folder with all game resources)
+    sprite.setScale(1.3f, 1.3f);
 }
 
 FastEnemy::FastEnemy(const std::vector<sf::Vector2f>& pathPoints)
     : Enemy(pathPoints, 150.f, 100.f, 15, 1) {
-<<<<<<< HEAD
-    loadTexture("assets/Bat.png"); // chinh lai duong dan khi cai len may khac
-=======
     loadTexture("assets/Bat.png");
->>>>>>> 8f6fa01 (Add assets folder with all game resources)
 }
 
 TankEnemy::TankEnemy(const std::vector<sf::Vector2f>& pathPoints)
     : Enemy(pathPoints, 4000.f, 30.f, 25, 2) {
-<<<<<<< HEAD
-    loadTexture("C:/Users/HH/Desktop/SFML GAME C++/x64/Debug/assets/Mushroom.png"); // chinh lai duong dan khi cai len may khac
-=======
     loadTexture("assets/Mushroom.png");
->>>>>>> 8f6fa01 (Add assets folder with all game resources)
     sprite.setScale(2.5f, 2.5f);
     shape.setFillColor(sf::Color::Red);
     shape.setRadius(20.f);
