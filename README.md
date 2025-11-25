@@ -1,15 +1,16 @@
 # 🏰 Tower Base Defense
 
-Một trò chơi **Tower Defense** được phát triển bằng **C++ và SFML** bởi **nhóm 10**.  
+Một trò chơi **Tower Defense** được phát triển bằng **C++ và SFML** bởi **nhóm 11.10**.  
 Người chơi phải bảo vệ căn cứ của mình khỏi làn sóng quái vật tiến đến!
 
 ---
 
 ## 🎮 Cách chơi
 - Nhấn **phím 1 / 2 / 3** để chọn loại trụ:
-  - **1** → Súng máy  
-  - **2** → Pháo  
-  - **3** → Sniper  
+  - **1** → Súng máy (Bắn nhanh, dame nhỏ)
+  - **2** → Pháo  (Bắn vừa, dame vừa)
+  - **3** → Sniper (Bắn chậm, dame to)
+  - **4** → Glacio (Súng làm chậm)
 - 🕹️ **Di chuyển chuột** để chọn vị trí đặt trụ.
 - 🏗️ **Nhấn chuột trái** để đặt trụ phòng thủ **(không nằm trên đường đi của địch)**.
 - ⏩ **Nhấn Space** khi sẵn sàng để bắt đầu 1 **Wave** (làn sóng địch) mới.
