@@ -1,7 +1,7 @@
-﻿#include "Player.h"
+#include "Player.h"
 
 Player::Player(int startMoney, int startLives)
-    : money(400), score(0), lives(startLives), wave(1) {
+    : money(400), score(0), lives(20), wave(1) {
 }
 
 void Player::addMoney(int amount) {
@@ -91,7 +91,7 @@ void Player::drawUI(sf::RenderWindow& window, sf::Font& font) {
 
 
 void Player::reset() {
-    money = 300;
+    money = 400;
     score = 0;
     lives = 20;
     wave = 1;
