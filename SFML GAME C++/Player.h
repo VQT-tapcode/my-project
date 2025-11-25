@@ -1,10 +1,10 @@
-﻿#ifndef PLAYER_H
+#ifndef PLAYER_H
 #define PLAYER_H
 
 #include <SFML/Graphics.hpp>
 #include <string>
 
-// Class Player - Simple Game Style
+
 class Player {
 private:
     int money;
@@ -14,7 +14,7 @@ private:
     int bestScore;
 
 public:
-    Player(int startMoney = 200, int startLives = 20);
+    Player(int startMoney = 100, int startLives = 10);
 
     // Money
     void addMoney(int amount);
