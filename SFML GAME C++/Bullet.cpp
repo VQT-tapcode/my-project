@@ -9,7 +9,7 @@ Bullet::Bullet(sf::Vector2f startPos, Enemy* targetEnemy, float dmg, float spd)
     shape.setFillColor(sf::Color::White);
     shape.setPosition(position);
 
-    // Calculate initial velocity towards target
+
     if (target && !target->isDead()) {
         sf::Vector2f direction = target->getPosition() - position;
         float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
@@ -22,7 +22,7 @@ Bullet::Bullet(sf::Vector2f startPos, Enemy* targetEnemy, float dmg, float spd)
 void Bullet::update(float dt) {
     if (!active) return;
 
-    // Update velocity to track target
+
     if (target && !target->isDead()) {
         sf::Vector2f direction = target->getPosition() - position;
         float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
@@ -31,7 +31,8 @@ void Bullet::update(float dt) {
         }
     }
     else {
-        // Target is dead, deactivate bullet
+
+
         active = false;
         return;
     }
@@ -39,9 +40,12 @@ void Bullet::update(float dt) {
     position += velocity * dt;
     shape.setPosition(position);
 
-    // Check if hit target
     if (checkHit()) {
         target->takeDamage(damage);
+        // Nếu là đạn của GlacioTower (màu xanh), áp dụng hiệu ứng làm chậm
+        if (shape.getFillColor() == sf::Color(100, 200, 255)) {
+            target->applySlow(0.5f, 1.0f); // Làm chậm 50% trong 1 giây
+        }
         active = false;
     }
 }
@@ -62,5 +66,5 @@ bool Bullet::checkHit() {
     float dy = position.y - targetPos.y;
     float distance = std::sqrt(dx * dx + dy * dy);
 
-    return distance < 15.f; // Hit if within enemy radius
+    return distance < 15.f; 
 }
