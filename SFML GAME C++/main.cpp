@@ -1,5 +1,6 @@
-﻿#include <SFML/Graphics.hpp>
+
 #include <vector>
+#include <SFML/Graphics.hpp>
 #include <memory>
 #include <iostream>
 #include <fstream>
@@ -156,12 +157,27 @@ void drawTowerShop(sf::RenderWindow& window, sf::Font& font, Player& player) {
     sniperText.setPosition(315.f, startY + 25.f);
     window.draw(sniperText);
 
+    // Glacio Tower (Ice Tower)
+    sf::RectangleShape glacio(sf::Vector2f(80.f, 80.f));
+    glacio.setPosition(440.f, startY + 20.f);
+    glacio.setFillColor(sf::Color(100, 200, 255));
+    glacio.setOutlineThickness(2.f);
+    glacio.setOutlineColor(sf::Color::White);
+    window.draw(glacio);
+
+    sf::Text glacioText;
+    glacioText.setFont(font);
+    glacioText.setString("Glacio\nCost: 150\nDamage: 10\nSlow: 50%");
+    glacioText.setCharacterSize(12);
+    glacioText.setPosition(445.f, startY + 25.f);
+    window.draw(glacioText);
+
     sf::Text instruction;
     instruction.setFont(font);
-    instruction.setString("Press 1/2/3 to select tower | Click to place | ESC to cancel");
+    instruction.setString("Press 1/2/3/4 to select tower | Click to place | ESC to cancel");
     instruction.setCharacterSize(14);
     instruction.setFillColor(sf::Color::Yellow);
-    instruction.setPosition(450.f, startY + 50.f);
+    instruction.setPosition(550.f, startY + 50.f);
     window.draw(instruction);
 }
 
@@ -220,6 +236,7 @@ int main() {
                 if (event.key.code == sf::Keyboard::Num1) { selectedTower = 1; towerPlacementMode = true; }
                 if (event.key.code == sf::Keyboard::Num2) { selectedTower = 2; towerPlacementMode = true; }
                 if (event.key.code == sf::Keyboard::Num3) { selectedTower = 3; towerPlacementMode = true; }
+                if (event.key.code == sf::Keyboard::Num4) { selectedTower = 4; towerPlacementMode = true; }
                 if (event.key.code == sf::Keyboard::Escape) { selectedTower = 0; towerPlacementMode = false; }
                 if (event.key.code == sf::Keyboard::Space && enemies.empty() && !waveActive) {
                     prepareWave(spawnQueue, path, player.getWave());
@@ -244,9 +261,22 @@ int main() {
                         if (!onPath) {
                             int cost = 0;
                             std::unique_ptr<Tower> newTower;
-                            if (selectedTower == 1) { cost = 100; newTower = std::make_unique<MachineGunTower>(mousePos); }
-                            else if (selectedTower == 2) { cost = 200; newTower = std::make_unique<CannonTower>(mousePos); }
-                            else if (selectedTower == 3) { cost = 300; newTower = std::make_unique<SniperTower>(mousePos); }
+                            if (selectedTower == 1) {
+                                cost = 100;
+                                newTower = std::make_unique<MachineGunTower>(mousePos);
+                            }
+                            else if (selectedTower == 2) {
+                                cost = 200;
+                                newTower = std::make_unique<CannonTower>(mousePos);
+                            }
+                            else if (selectedTower == 3) {
+                                cost = 300;
+                                newTower = std::make_unique<SniperTower>(mousePos);
+                            }
+                            else if (selectedTower == 4) {
+                                cost = 150;
+                                newTower = std::make_unique<GlacioTower>(mousePos);
+                            }
 
                             if (player.spendMoney(cost)) towers.push_back(std::move(newTower));
                         }
@@ -274,6 +304,7 @@ int main() {
 
         drawEnemies(window, enemies);
         drawBullets(window, bullets);
+
         // Tower preview when placing
         if (towerPlacementMode && selectedTower > 0 && !isPaused) {
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
@@ -291,6 +322,9 @@ int main() {
             else if (selectedTower == 3) {
                 preview.setFillColor(sf::Color(50, 100, 200, 150));
             }
+            else if (selectedTower == 4) {
+                preview.setFillColor(sf::Color(100, 200, 255, 150));
+            }
 
             preview.setOutlineThickness(2.f);
             preview.setOutlineColor(sf::Color::White);
@@ -300,6 +334,7 @@ int main() {
             if (selectedTower == 1) range = 150.f;
             else if (selectedTower == 2) range = 200.f;
             else if (selectedTower == 3) range = 300.f;
+            else if (selectedTower == 4) range = 150.f;
 
             sf::CircleShape rangePreview(range);
             rangePreview.setOrigin(range, range);
@@ -311,6 +346,7 @@ int main() {
             window.draw(rangePreview);
             window.draw(preview);
         }
+
         player.drawUI(window, font);
         drawTowerShop(window, font, player);
 
@@ -320,11 +356,8 @@ int main() {
         bestText.setString("Best: " + std::to_string(bestScore));
         bestText.setCharacterSize(18);
         bestText.setFillColor(sf::Color::Green);
-
-        // Căn theo vị trí cố định trong panel
-        bestText.setPosition(1030.f, 110.f);  // chỉnh tuỳ bạn, nếu nó đè lên chữ Wave thì tăng giá trị y lên
+        bestText.setPosition(1030.f, 110.f);
         window.draw(bestText);
-
 
         if (enemies.empty() && !waveActive && !player.isGameOver() && !isPaused) {
             sf::Text waveText;
