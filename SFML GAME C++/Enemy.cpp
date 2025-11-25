@@ -1,8 +1,8 @@
-﻿#include "Enemy.h"
+#include "Enemy.h"
 #include <cmath>
 
 Enemy::Enemy(const std::vector<sf::Vector2f>& pathPoints, float hp, float spd, int money, int dmg)
-    : path(pathPoints), health(hp), maxHealth(hp), speed(spd), reward(money), damage(dmg)
+    : path(pathPoints), health(hp), maxHealth(hp), speed(spd), originalSpeed(spd), reward(money), damage(dmg)
 {
     if (!path.empty()) position = path[0];
 
@@ -25,8 +25,8 @@ bool Enemy::loadTexture(const std::string& filename) {
         sprite.setOrigin(frameWidth / 2.f, frameHeight / 2.f);
         sprite.setPosition(position);
 
-        // 🖌 Scale nhân vật lớn hơn
-        float scaleFactor = 2.f; // tăng gấp đôi
+        // Scale nhân vật lớn hơn
+        float scaleFactor = 2.f;
         sprite.setScale(scaleFactor, scaleFactor);
 
         hasTexture = true;
@@ -36,9 +36,18 @@ bool Enemy::loadTexture(const std::string& filename) {
     return false;
 }
 
-
 void Enemy::update(float dt) {
     if (dead || currentWaypoint >= path.size()) return;
+
+    // Xử lý slow effect
+    if (slowTimer > 0) {
+        slowTimer -= dt;
+        if (slowTimer <= 0) {
+            // Hết hiệu ứng slow, khôi phục tốc độ gốc
+            speed = originalSpeed;
+            slowPercent = 0.0f;
+        }
+    }
 
     // Di chuyển
     sf::Vector2f target = path[currentWaypoint];
@@ -95,6 +104,15 @@ void Enemy::draw(sf::RenderWindow& window) {
         else hpBar.setFillColor(sf::Color::Red);
 
         window.draw(hpBar);
+
+        // Hiển thị hiệu ứng làm chậm (thanh màu xanh)
+        if (slowTimer > 0) {
+            float slowPercent = slowTimer / slowDuration;
+            sf::RectangleShape slowBar(sf::Vector2f(35.f * slowPercent, 3.f));
+            slowBar.setPosition(position.x - 17.5f, position.y - 33.f);
+            slowBar.setFillColor(sf::Color(100, 200, 255));
+            window.draw(slowBar);
+        }
     }
 }
 
@@ -103,6 +121,18 @@ void Enemy::takeDamage(float dmg) {
     if (health <= 0) {
         health = 0;
         dead = true;
+    }
+}
+
+void Enemy::applySlow(float percent, float duration) {
+    // Chỉ áp dụng nếu chưa bị slow hoặc slow mới mạnh hơn
+    if (slowTimer <= 0 || percent > slowPercent) {
+        slowPercent = percent;
+        slowDuration = duration;
+        slowTimer = duration;
+
+        // Áp dụng làm chậm
+        speed = originalSpeed * (1.0f - percent);
     }
 }
 
