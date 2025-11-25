@@ -1,4 +1,4 @@
-﻿#ifndef TOWER_H
+#ifndef TOWER_H
 #define TOWER_H
 
 #include <SFML/Graphics.hpp>
@@ -7,12 +7,17 @@
 #include <vector>
 #include <memory>
 
-
 class Tower {
 protected:
     sf::RectangleShape shape;
     sf::CircleShape rangeCircle;
     sf::Vector2f position;
+
+    // Sprite cho tower
+    sf::Sprite sprite;
+    sf::Texture texture;
+    bool hasTexture;
+    float currentRotation; // Góc xoay hiện tại
 
     float range;
     float damage;
@@ -31,7 +36,9 @@ public:
     virtual void draw(sf::RenderWindow& window, bool showRange = false);
 
     Enemy* findTarget(std::vector<std::unique_ptr<Enemy>>& enemies);
-    void shoot(std::vector<std::unique_ptr<Bullet>>& bullets);
+    virtual void shoot(std::vector<std::unique_ptr<Bullet>>& bullets);
+
+    bool loadTexture(const std::string& filename);
 
     sf::Vector2f getPosition() const { return position; }
     float getRange() const { return range; }
@@ -54,6 +61,22 @@ public:
 class SniperTower : public Tower {
 public:
     SniperTower(sf::Vector2f pos);
+};
+
+// GlacioTower - Tháp băng làm chậm kẻ địch
+class GlacioTower : public Tower {
+private:
+    float slowPercent;  // Tỷ lệ làm chậm (50%)
+    float slowDuration; // Thời gian làm chậm (1 giây)
+
+public:
+    GlacioTower(sf::Vector2f pos);
+
+    // Override phương thức shoot để bắn đạn làm chậm
+    void shoot(std::vector<std::unique_ptr<Bullet>>& bullets) override;
+
+    float getSlowPercent() const { return slowPercent; }
+    float getSlowDuration() const { return slowDuration; }
 };
 
 #endif
