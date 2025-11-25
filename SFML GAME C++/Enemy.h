@@ -1,4 +1,4 @@
-﻿#ifndef ENEMY_H
+#ifndef ENEMY_H
 #define ENEMY_H
 
 #include <SFML/Graphics.hpp>
@@ -21,9 +21,15 @@ protected:
     float health;
     float maxHealth;
     float speed;
+    float originalSpeed; // Tốc độ gốc trước khi bị làm chậm
     int reward;
     int damage;
     bool dead = false;
+
+    // Slow effect
+    float slowPercent = 0.0f;
+    float slowDuration = 0.0f;
+    float slowTimer = 0.0f;
 
     // Animation
     float frameWidth = 150.f;
@@ -41,6 +47,7 @@ public:
     virtual void draw(sf::RenderWindow& window);
 
     void takeDamage(float dmg);
+    void applySlow(float percent, float duration);
     bool loadTexture(const std::string& filename);
 
     bool isDead() const { return dead; }
