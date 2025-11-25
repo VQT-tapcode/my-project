@@ -1,9 +1,11 @@
-﻿#include "Tower.h"
+#include "Tower.h"
 #include <cmath>
+
+#define PI 3.14159265f
 
 Tower::Tower(sf::Vector2f pos, float rng, float dmg, float rate, int cst)
     : position(pos), range(rng), damage(dmg), fireRate(rate), cost(cst),
-    fireTimer(0), currentTarget(nullptr) {
+    fireTimer(0), currentTarget(nullptr), hasTexture(false), currentRotation(0.f) {
 
     shape.setSize(sf::Vector2f(40.f, 40.f));
     shape.setOrigin(20.f, 20.f);
@@ -20,6 +22,29 @@ Tower::Tower(sf::Vector2f pos, float rng, float dmg, float rate, int cst)
     rangeCircle.setOutlineColor(sf::Color(255, 255, 255, 100));
 }
 
+bool Tower::loadTexture(const std::string& filename) {
+    if (texture.loadFromFile(filename)) {
+        sprite.setTexture(texture);
+
+        // Lấy kích thước texture
+        sf::Vector2u textureSize = texture.getSize();
+
+        // Set origin về giữa
+        sprite.setOrigin(textureSize.x / 2.f, textureSize.y /1.5f);
+        sprite.setPosition(position);
+
+        // Scale để lớn hơn tower base (60x60 thay vì 40x40)
+        float scaleX = 60.f / textureSize.x;
+        float scaleY = 60.f / textureSize.y;
+        sprite.setScale(scaleX, scaleY);
+
+        hasTexture = true;
+        return true;
+    }
+    hasTexture = false;
+    return false;
+}
+
 void Tower::update(float dt, std::vector<std::unique_ptr<Enemy>>& enemies,
     std::vector<std::unique_ptr<Bullet>>& bullets) {
 
@@ -32,6 +57,8 @@ void Tower::update(float dt, std::vector<std::unique_ptr<Enemy>>& enemies,
     if (currentTarget && fireTimer >= fireRate) {
         shoot(bullets);
         fireTimer = 0;
+
+        
     }
 }
 
@@ -39,7 +66,14 @@ void Tower::draw(sf::RenderWindow& window, bool showRange) {
     if (showRange) {
         window.draw(rangeCircle);
     }
-    window.draw(shape);
+
+    // Vẽ hình nền trước
+    //window.draw(shape);
+
+    // Vẽ sprite (hình súng) lên trên nếu có
+    if (hasTexture) {
+        window.draw(sprite);
+    }
 }
 
 Enemy* Tower::findTarget(std::vector<std::unique_ptr<Enemy>>& enemies) {
@@ -75,16 +109,43 @@ void Tower::shoot(std::vector<std::unique_ptr<Bullet>>& bullets) {
 MachineGunTower::MachineGunTower(sf::Vector2f pos)
     : Tower(pos, 150.f, 10.f, 0.2f, 100) {
     shape.setFillColor(sf::Color(150, 150, 150));
+    loadTexture("assets/machine_gun.png");
+    // Tùy chỉnh scale riêng cho machine gun (nhỏ hơn)
+    if (hasTexture) sprite.setScale(1.6f, 1.6f);
 }
 
 // CannonTower
 CannonTower::CannonTower(sf::Vector2f pos)
     : Tower(pos, 200.f, 50.f, 1.0f, 200) {
     shape.setFillColor(sf::Color(200, 100, 50));
+    loadTexture("assets/cannon.png");
+    // Cannon to hơn
+    if (hasTexture) sprite.setScale(1.8f, 1.8f);
 }
 
 // SniperTower
 SniperTower::SniperTower(sf::Vector2f pos)
     : Tower(pos, 300.f, 100.f, 2.0f, 300) {
     shape.setFillColor(sf::Color(50, 100, 200));
+    loadTexture("assets/sniper.png");
+    // Sniper dài hơn
+    if (hasTexture) sprite.setScale(1.8f, 1.8f);
+}
+
+// GlacioTower
+GlacioTower::GlacioTower(sf::Vector2f pos)
+    : Tower(pos, 150.f, 10.f, 0.5f, 150), slowPercent(0.5f), slowDuration(1.0f) {
+    shape.setFillColor(sf::Color(100, 200, 255));
+    loadTexture("assets/ice_tower.png");
+    // Ice tower vừa phải
+    if (hasTexture) sprite.setScale(1.8f, 1.8f);
+}
+
+void GlacioTower::shoot(std::vector<std::unique_ptr<Bullet>>& bullets) {
+    if (currentTarget) {
+        auto bullet = std::make_unique<Bullet>(position, currentTarget, damage, 300.f);
+        // Đặt màu cho đạn băng (màu xanh)
+        bullet->setColor(sf::Color(100, 200, 255));
+        bullets.push_back(std::move(bullet));
+    }
 }
