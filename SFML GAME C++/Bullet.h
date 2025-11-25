@@ -23,6 +23,8 @@ public:
 
     bool isActive() const { return active; }
     void deactivate() { active = false; }
+    void setColor(sf::Color color) { shape.setFillColor(color); }
+    sf::Color getColor() const { return shape.getFillColor(); }
 
     bool checkHit();
 };
